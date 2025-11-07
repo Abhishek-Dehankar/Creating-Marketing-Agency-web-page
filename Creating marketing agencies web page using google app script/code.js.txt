@@ -1,0 +1,123 @@
+// Code.gs
+// Creatify Studio — full responsive web app with Google Sheet logging
+
+const SHEET_ID = '1PdH_iuO7hyNmEOKfIrRnpUx4TAp82L9r5Eqy6InR4Kg';  // 👈 paste your Sheet ID here
+const CONTACT_SHEET = 'ContactRequests';
+const VISIT_SHEET = 'Visits';
+
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('index')
+    .setTitle('Creatify Studio — Ideas That Move Brands')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getSiteData() {
+  return {
+    meta: {
+      title: "Creatify Studio — Ideas That Move Brands",
+      description: "Marketing, Analytics & Digital Transformation"
+    },
+    brand: {
+      name: "Creatify Studio",
+      logo: "https://play-lh.googleusercontent.com/ELSKxIAwO-qzhu5hcxnjqpoNPE79A-RgugykbrqAiym_KfX2TL_kVygsDIt_ifSbikQ=w480-h960-rw"
+    },
+    hero: {
+      heading: "Ideas that move brands",
+      sub: "Creative marketing powered by data-driven analytics. We build digital experiences that convert."
+    },
+    about: {
+      paragraphs: [
+        "Creatify Studio is a marketing & analytics agency focused on growth-driven creativity. We combine creative campaigns with measurable analytics to deliver real business outcomes.",
+        "Our approach blends social media strategy, performance reporting, Power BI dashboards and website creation — tailored for startups to enterprise brands."
+      ]
+    },
+    plans: {
+      headers: ["Feature", "Basic — Social Spark", "Moderate — Data-Driven Growth", "Premium — Digital Transformation"],
+      rows: [
+        { feature: "Price", values: ["₹9,999 / month", "₹19,999 / month", "₹30,999 / month"] },
+        { feature: "Ideal For", values: ["Startups & small businesses building social presence", "Growing businesses that want creativity + analytics", "Established brands ready to scale digitally"] },
+        { feature: "Social Media Management", values: ["✅ Instagram & Facebook pages handled professionally", "✅ Included", "✅ Included"] },
+        { feature: "Creative Marketing Ideas", values: ["✅ Unique ideas & campaigns", "✅ Included", "✅ Included"] },
+        { feature: "Performance Reports", values: ["✅ Monthly summary", "✅ Advanced reports via Power BI", "✅ Advanced reports + strategic insights"] },
+        { feature: "Power BI Dashboard Setup", values: ["❌", "✅ Included", "✅ Included"] },
+        { feature: "Data Analytics & Insights", values: ["❌", "✅ Detailed analytics on growth", "✅ Comprehensive analytics & forecasting"] },
+        { feature: "Business Growth Recommendations", values: ["❌", "✅ Monthly insights", "✅ Deep insights with continuous optimization"] },
+        { feature: "Website Creation", values: ["❌", "❌", "✅ Basic website design for your brand"] },
+        { feature: "SEO & Visibility Strategy", values: ["❌", "❌", "✅ Included"] },
+        { feature: "Support Level", values: ["Standard email support", "Priority email support", "Dedicated support + monthly strategy calls"] },
+        { feature: "Goal", values: ["Build your online identity", "Grow with creativity + analytics", "Full digital transformation with measurable growth"] }
+      ]
+    },
+    services: [
+      { title: "Social Media Management", desc: "Posting, engagement, calendar & growth tactics." },
+      { title: "Creative Campaigns", desc: "Campaign ideation & creative copywriting." },
+      { title: "Data Analytics", desc: "Power BI dashboards, tracking & insights." },
+      { title: "Website Design", desc: "Landing pages & conversion-first UI/UX." },
+      { title: "SEO & Visibility", desc: "On-page and technical optimization." }
+    ],
+    portfolio: [
+      { title: "Ad Campaign — Festive Boost", img: "https://assets.wpdeveloper.com/2020/12/8-Effective-Marketing-Strategies-To-Boost-eCommerce-Sales-In-Christmas-New-Year.png?w=1200&q=80" },
+      { title: "Visual Identity — Modern Design", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuZCKCOAZJnnYJq3eZqh6QOKoGDWFtZzVJSg&s?w=1200&q=80" },
+      { title: "Marketing Dashboard — Power BI", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrKe588z9sg4xGWOfbHcPDxm9zZVwIWf26pg&s?w=1200&q=80" },
+      { title: "Website Redesign — Conversion UI", img: "https://media.bitcot.com/wp-content/uploads/2025/01/How-Do-You-Know-if-Your-Website-Needs-a-Redesign-1024x663.png?w=1200&q=80" },
+      { title: "Social Strategy Session", img: "https://thecreativecollective.com.au/wp-content/uploads/2023/03/Screen-Shot-2023-03-23-at-12.52.10-pm-1024x1024.png?w=1200&q=80" }
+    ],
+    contactInfo: {
+      email: "hello@creatify.gmail.com",
+      phone: "+91 8*******1",
+      note: "We typically respond within 24 hours."
+    },
+    footerText: "© " + new Date().getFullYear() + " Creatify Studio Create By Abhi — All rights reserved."
+  };
+}
+
+// ---------- CONTACT + VISIT LOGGING ----------
+
+function submitContact(formObj) {
+  try {
+    saveToSheet(CONTACT_SHEET, ["Timestamp","Name","Email","Message"],
+      [new Date(), formObj.name, formObj.email, formObj.message]);
+    return { status: 'ok', msg: 'Saved' };
+  } catch (e) {
+    return { status: 'error', msg: e.toString() };
+  }
+}
+
+function trackVisit() {
+  try {
+    const user = Session.getActiveUser().getEmail() || "Anonymous";
+    saveToSheet(VISIT_SHEET, ["Timestamp","User"], [new Date(), user]);
+  } catch (err) {
+    Logger.log(err);
+  }
+}
+
+// --- AI-style chat helper (rule-based demo, no external API) ---
+function askAI(question) {
+  const q = question.toLowerCase();
+  let answer = "";
+
+  if (q.includes("plan") || q.includes("pricing")) {
+    answer = "💡 We offer three plans — Basic, Moderate, and Premium. You can explore them in the 'Plans' section below.";
+  } else if (q.includes("service") || q.includes("work")) {
+    answer = "🚀 Our key services include Social Media Management, Creative Campaigns, Data Analytics, and Website Design.";
+  } else if (q.includes("contact") || q.includes("email")) {
+    answer = "📞 You can reach us via the Contact section — email hello@creatify.gmail.com or fill the form.";
+  } else if (q.includes("portfolio") || q.includes("project")) {
+    answer = "🎨 You can view our portfolio right below — we’ve showcased analytics dashboards, brand visuals, and campaigns.";
+  } else if (q.includes("hello") || q.includes("hi")) {
+    answer = "👋 Hi there! I'm the Creatify Assistant — here to help you explore the site.";
+  } else {
+    answer = "🤖 I'm your site guide! Try asking about 'Plans', 'Services', or 'Contact'.";
+  }
+
+  return { status: 'ok', reply: answer };
+}
+
+function saveToSheet(sheetName, headers, row) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName(sheetName);
+  if (!sheet) sheet = ss.insertSheet(sheetName);
+  if (sheet.getLastRow() === 0) sheet.appendRow(headers);
+  sheet.appendRow(row);
+}

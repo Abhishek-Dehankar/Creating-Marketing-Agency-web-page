@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creatify Studio — Ideas That Move Brands</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --accent:#007bff; --bg:#ffffff; --muted:#6b7280;
+  --text:#0f1724; --card:#ffffff; --border:#e5e7eb;
+}
+[data-theme="dark"]{
+  --accent:#007bff; --bg:#ffffff; --muted:#6b7280;
+  --text:#0f1724; --card:#ffffff; --border:#e5e7eb;
+}
+*{box-sizing:border-box;transition:background .3s,color .3s;}
+body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:var(--text);}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--card);position:sticky;top:0;z-index:100;}
+.brand{display:flex;align-items:center;gap:10px;}
+.logo img{width:48px;height:48px;border-radius:10px;}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+nav a{color:var(--muted);text-decoration:none;font-weight:600;}
+nav a:hover{color:var(--accent);}
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer;}
+.ghost{background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 10px;border-radius:8px;cursor:pointer;}
+.container{max-width:1100px;margin:20px auto;padding:0 16px;}
+.hero{display:flex;flex-wrap:wrap;gap:24px;align-items:center;background:var(--card);border-radius:12px;padding:28px;box-shadow:0 4px 10px rgba(0,0,0,.05);}
+.hero h1{margin:0;font-size:32px;}
+.hero p{color:var(--muted);margin-top:8px;}
+.section{margin-top:40px;}
+.section-title{font-size:20px;font-weight:700;margin-bottom:12px;}
+.card{background:var(--card);padding:16px;border:1px solid var(--border);border-radius:10px;}
+.portfolio img{width:100%;height:150px;object-fit:cover;border-radius:8px;}
+footer{margin-top:40px;padding:18px;text-align:center;color:var(--muted);border-top:1px solid var(--border);}
+@media(max-width:768px){.hero{padding:20px;}.hero h1{font-size:26px;}}
+</style>
+</head>
+<body>
+<div id="app" data-theme="light">
+<header>
+  <div class="brand">
+    <div class="logo"><img id="logoImg" alt="logo"></div>
+    <div>
+      <div id="brandName" style="font-weight:800;">Creatify Studio</div>
+      <div id="brandSub" class="muted" style="font-size:12px;">Ideas That Move Brands</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#about">About</a><a href="#plans">Plans</a>
+    <a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a>
+    <button class="ghost" id="themeBtn">😍</button>
+  </nav>
+</header>
+
+<!-- Banner images -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;">
+  <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800" style="width:100%;height:250px;object-fit:cover;">
+  <img src="https://www.slideteam.net/media/catalog/product/cache/1280x720/k/e/key_success_drivers_to_boost_business_growth_slide01.jpg?w=800" style="width:100%;height:250px;object-fit:cover;">
+  <img src="https://as1.ftcdn.net/jpg/01/30/81/58/1000_F_130815808_Z3oSy5Je4I6FFUaLrkPS3rqajm8uPgdo.jpg?w=800" style="width:100%;height:250px;object-fit:cover;">
+</div>
+
+<div class="container">
+
+  <section class="hero">
+    <div style="flex:1;">
+      <h1 id="heroHeading"></h1>
+      <p id="heroSub"></p>
+      <div style="margin-top:12px;">
+        <button class="btn" onclick="scrollToSection('plans')">Explore Plans</button>
+      </div>
+    </div>
+    <div class="card" style="flex:1;">
+      <strong>Start with a plan</strong>
+      <p class="muted">Choose a subscription that fits your business</p>
+      <div id="planPreview" style="margin-top:10px;"></div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="section-title">About</div>
+    <div class="card" id="aboutCard"></div>
+  </section>
+
+  <!-- PLANS / COMPARISON TABLE -->
+  <section id="plans" class="section">
+    <div class="section-title">Subscription Plans — Comparison</div>
+    <div class="table-wrap card">
+      <table class="compare" id="plansTable" role="table">
+        <thead id="plansHead"></thead>
+        <tbody id="plansBody"></tbody>
+        </table></div>
+  </section>
+
+  <section id="services" class="section">
+    <div class="section-title">Our Services</div>
+    <div id="servicesGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;"></div>
+  </section>
+
+  <section id="dashboardShowcase" class="section">
+    <div class="section-title">Dashboard Insights</div>
+    <div class="card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;">
+      <img src="https://img.freepik.com/free-photo/marketing-computer-sign-symbol-concept_53876-123885.jpg?semt=ais_hybrid&w=740&w=800" style="width:100%;border-radius:10px;">
+      <img src="https://images.unsplash.com/photo-1556155092-8707de31f9c4?w=800" style="width:100%;border-radius:10px;">
+      <img src="https://st.depositphotos.com/2761516/3967/i/450/depositphotos_39677833-stock-photo-online-marketing-concept.jpg?w=800" style="width:100%;border-radius:10px;">
+    </div>
+  </section>
+
+  <section id="portfolio" class="section">
+    <div class="section-title">Portfolio</div>
+    <div id="portfolioGrid" class="portfolio" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;"></div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="section-title">Contact Us</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;">
+      <div class="card">
+        <form id="contactForm" onsubmit="handleContact(event)">
+          <label>Name</label><input id="c_name" required>
+          <label>Email</label><input id="c_email" type="email" required>
+          <label>Message</label><textarea id="c_message" required></textarea>
+          <button class="btn" type="submit" style="margin-top:10px;">Send</button>
+        </form>
+        <div id="contactMsg" style="margin-top:8px;color:green;"></div>
+      </div>
+      <div class="card">
+        <strong>Get a free consultation</strong>
+        <p id="contactNote" class="muted"></p>
+        <p><b>Email:</b> <span id="contactEmail"></span></p>
+        <p><b>Phone:</b> <span id="contactPhone"></span></p>
+      </div>
+    </div>
+  </section>
+
+  <footer><div id="footerText"></div></footer>
+</div>
+</div>
+
+<script>
+const app=document.getElementById('app');
+const themeBtn=document.getElementById('themeBtn');
+const saved=localStorage.getItem('theme')||'light';
+app.dataset.theme=saved;
+themeBtn.textContent=saved==='light'?'😍':'welcome';
+themeBtn.onclick=()=>{
+ const t=app.dataset.theme==='light'?'dark':'light';
+ app.dataset.theme=t;
+ themeBtn.textContent=t==='light'?'😍':'welcome';
+ localStorage.setItem('theme',t);
+};
+
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+google.script.run.withSuccessHandler(renderSite).getSiteData();
+
+function renderSite(data){
+ document.getElementById('brandName').textContent=data.brand.name;
+ document.getElementById('logoImg').src=data.brand.logo;
+ document.getElementById('heroHeading').textContent=data.hero.heading;
+ document.getElementById('heroSub').textContent=data.hero.sub;
+ document.getElementById('footerText').textContent=data.footerText;
+ document.getElementById('aboutCard').innerHTML=data.about.paragraphs.map(p=>`<p class="muted">${p}</p>`).join('');
+ document.getElementById('plansHead').innerHTML='<tr>'+data.plans.headers.map(h=>`<th>${h}</th>`).join('')+'</tr>';
+ document.getElementById('plansBody').innerHTML=data.plans.rows.map(r=>`<tr><td>${r.feature}</td>${r.values.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');
+ document.getElementById('servicesGrid').innerHTML=data.services.map(s=>`<div class="card"><strong>${s.title}</strong><p class="muted">${s.desc}</p></div>`).join('');
+ document.getElementById('portfolioGrid').innerHTML=data.portfolio.map(p=>`<div><img src="${p.img}" alt="${p.title}"><p><b>${p.title}</b></p></div>`).join('');
+ document.getElementById('contactEmail').textContent=data.contactInfo.email;
+ document.getElementById('contactPhone').textContent=data.contactInfo.phone;
+ document.getElementById('contactNote').textContent=data.contactInfo.note;
+ google.script.run.trackVisit();
+}
+
+function handleContact(e){
+ e.preventDefault();
+ const o={name:c_name.value,email:c_email.value,message:c_message.value};
+ contactMsg.textContent='Sending...';
+ google.script.run.withSuccessHandler(r=>{
+   contactMsg.textContent=r.status==='ok'?'✅ Message sent! Thank You':'❌ Error';
+   if(r.status==='ok')contactForm.reset();
+ }).submitContact(o);
+}
+</script>
+<!-- Chat Assistant Floating Widget -->
+<style>
+.chatbot-btn {
+  position: fixed; bottom: 20px; right: 20px; background: var(--accent);
+  color: #fff; border: none; border-radius: 50%; width: 55px; height: 55px;
+  font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.chatbox {
+  position: fixed; bottom: 90px; right: 20px; width: 300px; max-height: 400px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; display: none; flex-direction: column;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+.chatbox header {
+  background: var(--accent); color: #fff; padding: 10px;
+  border-top-left-radius: 12px; border-top-right-radius: 12px;
+  font-weight: 600;
+}
+.chatbox-messages {
+  flex: 1; padding: 10px; overflow-y: auto; color: var(--text);
+}
+.chatbox-input {
+  display: flex; border-top: 1px solid var(--border);
+}
+.chatbox-input input {
+  flex: 1; border: none; padding: 8px; outline: none;
+  background: transparent; color: var(--text);
+}
+.chatbox-input button {
+  border: none; background: var(--accent); color: #fff;
+  padding: 8px 12px; cursor: pointer; border-bottom-right-radius: 12px;
+}
+</style>
+
+<div class="chatbox" id="chatbox">
+  <header>💬 Creatify Assistant</header>
+  <div class="chatbox-messages" id="chatMsgs">
+    <div>👋 Hi! I'm the Creatify Assistant. Ask me about our plans, services, or how to contact us!</div>
+  </div>
+  <div class="chatbox-input">
+    <input id="chatInput" placeholder="Type your question...">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<button class="chatbot-btn" id="chatToggle">💬</button>
+
+<script>
+const chatToggle = document.getElementById('chatToggle');
+const chatbox = document.getElementById('chatbox');
+const chatMsgs = document.getElementById('chatMsgs');
+const chatInput = document.getElementById('chatInput');
+
+chatToggle.onclick = () => {
+  chatbox.style.display = chatbox.style.display === 'flex' ? 'none' : 'flex';
+};
+
+function sendChat() {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+  chatMsgs.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+  chatInput.value = '';
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+  google.script.run.withSuccessHandler(res => {
+    if (res.status === 'ok') {
+      chatMsgs.innerHTML += `<div><b>Bot:</b> ${res.reply}</div>`;
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+  }).askAI(msg);
+}
+</script>
+</body>
+</html>
